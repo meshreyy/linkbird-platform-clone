@@ -137,10 +137,14 @@ export default function CampaignsDashboard() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Sidebar omitted here, add as needed */}
-      <div className="ml-64 flex flex-col">
-        {/* Header */}
+   <div className="flex flex-col items-center p-6 bg-gray-50 min-h-screen">
+    {/* Breadcrumb / Title */}
+    <div className="w-full max-w-6xl bg-white border-b border-gray-200 px-6 py-3">
+      <div className="text-gray-900 font-medium text-lg">Campaigns</div>
+    </div>
+
+    <div className="w-full max-w-6xl bg-white rounded-lg border border-gray-200 overflow-hidden mt-4">
+      {/* Header */}
         <header className="bg-white border-b border-gray-200 px-6 py-4">
           <div className="flex items-center justify-between">
             <div>

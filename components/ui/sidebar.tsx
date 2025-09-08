@@ -42,24 +42,23 @@ export function Sidebar({ children, className }: React.HTMLAttributes<HTMLDivEle
   const { open, setOpen } = useSidebar()
   return (
     <aside
-      className={cn(
-        "relative flex flex-col border-r bg-white transition-all duration-300 h-screen", // added h-screen
-        open ? "w-64" : "w-16",
-        className
-      )}
-    >
-      {/* Trigger */}
-      <button
-        onClick={() => setOpen(!open)}
-        className="absolute top-4 right-[-12px] z-20 bg-white border rounded-full p-1 shadow"
-        aria-label={open ? "Collapse sidebar" : "Expand sidebar"}
-      >
-        {open ? "←" : "→"}
-      </button>
+  className={cn(
+    "relative flex flex-col border-r bg-white transition-all duration-300 h-screen",
+    open ? "w-64" : "w-16"
+  )}
+>
+  {/* Toggle button */}
+  <button
+    onClick={() => setOpen(!open)}
+    className="absolute top-4 right-[-12px] z-20 bg-white border rounded-full p-1 shadow"
+    aria-label={open ? "Collapse sidebar" : "Expand sidebar"}
+  >
+    {open ? "←" : "→"}
+  </button>
 
-      {/* Sidebar content */}
-      {children}
-    </aside>
+  {/* Sidebar content */}
+  {children}
+</aside>
   )
 }
 

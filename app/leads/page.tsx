@@ -1,91 +1,150 @@
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+"use client";
+import React, { useState } from 'react';
+import { 
+  Users, 
+  MessageSquare,
+  Settings,
+  Activity,
+  ChevronDown,
+  Clock,
+  UserX,
+  Send,
+  CheckCircle
+} from 'lucide-react';
 
-import { Clock, Send, Ban, CheckCircle } from "lucide-react";
-
-const contacts = [
+const leadsData = [
   {
     id: 1,
     name: "Om Satyarthy",
     title: "Regional Head",
-    avatar: "OS",
     campaign: "Gynoveda",
-    activity: 4,
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face&auto=format",
+    activity: 3,
     status: "Pending Approval",
-    statusType: "pending",
+    statusType: "pending"
   },
   {
     id: 2,
     name: "Dr. Bhuvaneshwari",
-    title: "Fertility & Women's Health + A...",
-    avatar: "DB",
+    title: "Fertility & Women's Health • A...",
     campaign: "Gynoveda",
-    activity: 4,
+    avatar: "https://images.unsplash.com/photo-1494790108755-2616b9c89217?w=40&h=40&fit=crop&crop=face&auto=format",
+    activity: 3,
     status: "Sent 7 mins ago",
-    statusType: "sent",
+    statusType: "sent"
   },
-  // ... rest of contacts
+  {
+    id: 3,
+    name: "Surdeep Singh",
+    title: "Building Product-led SEO Growt...",
+    campaign: "Gynoveda",
+    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face&auto=format",
+    activity: 3,
+    status: "Sent 7 mins ago",
+    statusType: "sent"
+  },
+  {
+    id: 4,
+    name: "Dilbag Singh",
+    title: "Manager Marketing & Communicat...",
+    campaign: "Gynoveda",
+    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=40&h=40&fit=crop&crop=face&auto=format",
+    activity: 3,
+    status: "Sent 7 mins ago",
+    statusType: "sent"
+  },
+  {
+    id: 5,
+    name: "Vanshly Jain",
+    title: "Ayurveda||primary infertility|...",
+    campaign: "Gynoveda",
+    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face&auto=format",
+    activity: 3,
+    status: "Sent 7 mins ago",
+    statusType: "sent"
+  },
+  {
+    id: 6,
+    name: "Sunil Pal",
+    title: "Helping Fashion & Lifestyle Br...",
+    campaign: "Digi Sidekick",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face&auto=format",
+    activity: 4,
+    status: "Pending Approval",
+    statusType: "pending"
+  },
+  {
+    id: 7,
+    name: "Utkarsh K.",
+    title: "Airbnb Host | Ex-The Skin Stor...",
+    campaign: "The skin story",
+    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face&auto=format",
+    activity: 4,
+    status: "Do Not Contact",
+    statusType: "blocked"
+  },
+  {
+    id: 8,
+    name: "Shreya Ramakrishna",
+    title: "Deputy Manager - Founder's Off...",
+    campaign: "Pokenut",
+    avatar: "https://images.unsplash.com/photo-1494790108755-2616b9c89217?w=40&h=40&fit=crop&crop=face&auto=format",
+    activity: 4,
+    status: "Followup 10 mins ago",
+    statusType: "followup"
+  },
+  {
+    id: 9,
+    name: "Deepak Kumar",
+    title: "Deputy manager Advertising and...",
+    campaign: "Re equil",
+    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=40&h=40&fit=crop&crop=face&auto=format",
+    activity: 4,
+    status: "Followup 10 mins ago",
+    statusType: "followup"
+  }
 ];
 
-function Avatar({ initials, name }: { initials: string; name: string }) {
-  const colors = [
-    "bg-blue-500",
-    "bg-green-500",
-    "bg-purple-500",
-    "bg-red-500",
-    "bg-yellow-500",
-    "bg-indigo-500",
-    "bg-pink-500",
-    "bg-teal-500",
-  ];
-
-  const colorIndex = name.length % colors.length;
-
+const ActivityBar = ({ level }: { level: number }) => {
   return (
-    <div
-      className={`w-10 h-10 rounded-full ${colors[colorIndex]} flex items-center justify-center text-white text-sm font-medium`}
-    >
-      {initials}
-    </div>
-  );
-}
-
-function ActivityBars({ count }: { count: number }) {
-  return (
-    <div className="flex gap-1 items-center">
-      {Array.from({ length: 5 }, (_, i) => (
+    <div className="flex items-center gap-1">
+      {[1, 2, 3, 4, 5].map((bar) => (
         <div
-          key={i}
-          className={`w-1 h-6 rounded-full ${
-            i < count ? (count === 5 ? "bg-purple-500" : "bg-yellow-400") : "bg-gray-200"
+          key={bar}
+          className={`w-1 h-6 rounded-sm ${
+            bar <= level
+              ? bar <= 2
+                ? "bg-red-400"
+                : bar <= 4
+                ? "bg-yellow-400"
+                : "bg-green-400"
+              : "bg-gray-200"
           }`}
         />
       ))}
     </div>
   );
-}
+};
 
-function StatusBadge({ status, type }: { status: string; type: string }) {
-  const getStatusStyles = () => {
+const StatusBadge = ({
+  status,
+  type,
+}: {
+  status: string;
+  type: string;
+}) => {
+  const getStatusStyle = () => {
     switch (type) {
       case "pending":
-        return "bg-purple-100 text-purple-700 border-purple-200";
+        return "bg-purple-100 text-purple-800";
       case "sent":
-        return "bg-orange-100 text-orange-700 border-orange-200";
+        return "bg-orange-100 text-orange-800";
       case "blocked":
-        return "bg-gray-100 text-gray-700 border-gray-200";
+        return "bg-gray-100 text-gray-800";
       case "followup":
-        return "bg-blue-100 text-blue-700 border-blue-200";
+        return "bg-blue-100 text-blue-800";
       default:
-        return "bg-gray-100 text-gray-700 border-gray-200";
+        return "bg-gray-100 text-gray-800";
     }
   };
 
@@ -96,7 +155,7 @@ function StatusBadge({ status, type }: { status: string; type: string }) {
       case "sent":
         return <Send className="w-3 h-3" />;
       case "blocked":
-        return <Ban className="w-3 h-3" />;
+        return <UserX className="w-3 h-3" />;
       case "followup":
         return <CheckCircle className="w-3 h-3" />;
       default:
@@ -104,59 +163,93 @@ function StatusBadge({ status, type }: { status: string; type: string }) {
     }
   };
 
+  
   return (
-    <div
-      className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium border ${getStatusStyles()}`}
+    <span
+      className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium ${getStatusStyle()}`}
     >
       {getIcon()}
       {status}
-    </div>
+    </span>
   );
-}
+};
 
-export default function CampaignContactsTable() {
+export default function LeadsPage() {
+  const [sortBy, setSortBy] = useState('name');
   return (
-<main className="flex min-h-screen items-center justify-between w-full px-4">     
-     <div>Left content</div>
-    <Table className="max-w-4xl w-full">
-        <TableCaption className="mt-4 text-muted-foreground">
-          List of campaign contacts and their statuses.
-        </TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Name</TableHead>
-            <TableHead>Campaign</TableHead>
-            <TableHead>Activity</TableHead>
-            <TableHead>Status</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {contacts.map((contact, index) => (
-            <TableRow
-              key={contact.id}
-              className={index % 2 === 0 ? "bg-white" : "bg-gray-50/30"}
+    <div className="flex flex-col items-center p-6 bg-gray-50 min-h-screen">
+  {/* Breadcrumb / Title */}
+  <div className="w-full max-w-6xl bg-white border-b border-gray-200 px-6 py-3">
+    <div className="text-gray-900 font-medium text-lg">Leads</div>
+  </div>
+
+  {/* Table Container */}
+  <div className="w-full max-w-6xl bg-white rounded-lg border border-gray-200 overflow-hidden mt-4">
+    {/* Table Header */}
+        <div className="bg-gray-50 border-b border-gray-200 px-6 py-3">
+          <div className="grid grid-cols-12 gap-4">
+            <div className="col-span-4 flex items-center gap-2 text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Name
+              <ChevronDown className="w-4 h-4" />
+            </div>
+            <div className="col-span-3 flex items-center gap-2 text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Campaign Name
+              <ChevronDown className="w-4 h-4" />
+            </div>
+            <div className="col-span-2 text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Activity
+            </div>
+            <div className="col-span-3 flex items-center gap-2 text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Status
+              <ChevronDown className="w-4 h-4" />
+            </div>
+          </div>
+        </div>
+
+        {/* Table Body */}
+        <div className="divide-y divide-gray-200">
+          {leadsData.map((lead) => (
+            <div
+              key={lead.id}
+              className="px-6 py-4 hover:bg-gray-50 transition-colors"
             >
-              <TableCell className="flex justify-between">
-                <div className="flex items-center gap-3">
-                  <Avatar initials={contact.avatar} name={contact.name} />
-                  <div>
-                    <div className="font-medium">{contact.name}</div>
-                    <div className="text-sm text-gray-500">{contact.title}</div>
+              <div className="grid grid-cols-12 gap-4 items-center">
+                {/* Name Column */}
+                <div className="col-span-4 flex items-center gap-3">
+                  <img
+                    className="w-10 h-10 rounded-full object-cover"
+                    src={lead.avatar}
+                    alt={lead.name}
+                  />
+                  <div className="min-w-0 flex-1">
+                    <div className="text-sm font-medium text-gray-900 truncate">
+                      {lead.name}
+                    </div>
+                    <div className="text-sm text-gray-500 truncate">
+                      {lead.title}
+                    </div>
                   </div>
                 </div>
-              </TableCell>
-              <TableCell>{contact.campaign}</TableCell>
-              <TableCell>
-                <ActivityBars count={contact.activity} />
-              </TableCell>
-              <TableCell>
-                <StatusBadge status={contact.status} type={contact.statusType} />
-              </TableCell>
-            </TableRow>
+
+                {/* Campaign Name Column */}
+                <div className="col-span-3">
+                  <div className="text-sm text-gray-900">{lead.campaign}</div>
+                </div>
+
+                {/* Activity Column */}
+                <div className="col-span-2">
+                  <ActivityBar level={lead.activity} />
+                </div>
+
+                {/* Status Column */}
+                <div className="col-span-3">
+                  <StatusBadge status={lead.status} type={lead.statusType} />
+                </div>
+              </div>
+            </div>
           ))}
-        </TableBody>
-      </Table>
-      <div>Right content</div>
-    </main>
+        </div>
+      </div>
+    </div>
   );
 }

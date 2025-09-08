@@ -1,4 +1,4 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
+import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
 
 import {
   Sidebar,
@@ -12,19 +12,16 @@ import {
   SidebarMenuItem,
   SidebarHeader,
   SidebarProvider,
-  
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 
-import Image from "next/image"
-import Logo from './logo1.png'
-
+import Image from "next/image";
+import Logo from './logo1.png';
 
 const items = [
   {
     title: "Dashboard",
     url: "/dashboard",
     icon: () => <span>🏠</span>,
-    
   },
   {
     title: "Leads",
@@ -66,19 +63,17 @@ const items = [
     icon: () => <span>📜</span>,
     section: "Admin Panel",
     titleClassName: "text-gray-900",
-    
   },
-]
-
+];
 
 export function AppSidebar() {
-   return (
+  return (
     <Sidebar>
       {/* Header with Logo */}
       <SidebarHeader>
         <div className="flex items-center gap-2">
           <Image
-            src= {Logo}// you can copy the file to public folder
+            src={Logo} // you can copy the file to public folder
             alt="LinkBird Logo"
             width={30}
             height={30}
@@ -90,8 +85,10 @@ export function AppSidebar() {
       {/* Scrollable Sidebar Content */}
       <SidebarContent>
         {["Application", "Settings", "Admin Panel"].map((section) => {
-          const sectionItems = items.filter((item) => item.section === section || (!item.section && section === "Application"))
-          if (!sectionItems.length) return null
+          const sectionItems = items.filter(
+            (item) => item.section === section || (!item.section && section === "Application")
+          );
+          if (!sectionItems.length) return null;
           return (
             <SidebarGroup key={section}>
               <SidebarGroupLabel>{section}</SidebarGroupLabel>
@@ -104,7 +101,9 @@ export function AppSidebar() {
                           <item.icon />
                           <span className="text-gray-900">{item.title}</span>
                           {item.badge && (
-                            <span className="ml-auto text-xs bg-blue-500 text-white rounded-full px-2 py-0.5">{item.badge}</span>
+                            <span className="ml-auto text-xs bg-blue-500 text-white rounded-full px-2 py-0.5">
+                              {item.badge}
+                            </span>
                           )}
                         </a>
                       </SidebarMenuButton>
@@ -113,7 +112,7 @@ export function AppSidebar() {
                 </SidebarMenu>
               </SidebarGroupContent>
             </SidebarGroup>
-          )
+          );
         })}
       </SidebarContent>
 
@@ -122,5 +121,5 @@ export function AppSidebar() {
         <span className="text-xs text-gray-500">© 2025 LinkBird</span>
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }
