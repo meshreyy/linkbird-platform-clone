@@ -11,6 +11,7 @@ import {
   Send,
   CheckCircle
 } from 'lucide-react';
+import ProfileDropdown from '../profile/ProfileDropdown';
 
 const leadsData = [
   {
@@ -177,6 +178,17 @@ const StatusBadge = ({
 export default function LeadsPage() {
   const [sortBy, setSortBy] = useState('name');
   return (
+     <div className="min-h-screen flex flex-col bg-gray-50">
+          {/* Header */}
+          <header className="flex justify-between items-center p-4 border-b fixed top-0 left-70 right-0 bg-white z-50 shadow h-16">
+            <h1 className="text-lg font-semibold ml-auto text-gray-900 ">Welcome, User</h1>
+           
+            <ProfileDropdown user={{ name: "User", email: "user@email.com" }} />
+          </header>
+          <br></br>
+          <br></br>
+          <br></br>
+    
     <div className="flex flex-col items-center p-6 bg-gray-50 min-h-screen">
   {/* Breadcrumb / Title */}
   <div className="w-full max-w-6xl bg-white border-b border-gray-200 px-6 py-3">
@@ -249,6 +261,7 @@ export default function LeadsPage() {
             </div>
           ))}
         </div>
+      </div>
       </div>
     </div>
   );

@@ -14,6 +14,11 @@ import {
     CheckCircle,
     Wifi
 } from 'lucide-react';
+import ProfileDropdown from '../profile/ProfileDropdown';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '../api/auth/[...nextauth]/route';
+import { redirect } from 'next/navigation';
+import DashboardHeader from './DashboardHeader';
 
 // Campaign data
 const campaignsData = [
@@ -192,152 +197,159 @@ export default function Dashboard() {
     const [activeTab, setActiveTab] = useState("all"); // optionally use if you have tabs
 
     return (
-         <div className="bg-gray-50 min-h-screen p-8">
-        <div className="max-w-7xl mx-auto space-y-6"></div>
-        
-        <div className="flex flex-col items-center p-6 bg-gray-50 min-h-screen">
-            {/* Breadcrumb / Title */}
-            <div className="w-full max-w-6xl bg-white border-b border-gray-200 px-6 py-3">
-                <div className="text-gray-900 font-medium text-lg">Dashboard</div>
+          <div className="min-h-screen flex flex-col bg-gray-50">
+      {/* Header */}
+      <header className="flex justify-between items-center p-4 border-b fixed top-0 left-70 right-0 bg-white z-50 shadow h-16">
+        <h1 className="text-lg font-semibold ml-auto text-gray-900 ">Welcome, User</h1>
+       
+        <ProfileDropdown user={{ name: "User", email: "user@email.com" }} />
+      </header>
+      <br></br>
+          <br></br>
+  <div className="bg-gray-50 min-h-screen p-8 flex justify-center">
+    <div className="max-w-7xl mx-auto space-y-6"></div>
+   
+    
+    <div className="flex flex-col items-center p-6 bg-gray-50 min-h-screen">
+    
+      {/* Breadcrumb / Title */}
+      <div className="w-full max-w-6xl bg-white border-b border-gray-200 px-6 py-3">
+        <div className="text-gray-900 font-medium text-lg">Dashboard</div>
+      </div>
+      
+
+      <div className="w-full max-w-6xl space-y-6 mt-4">
+        {/* Campaigns Section */}
+        <section className="bg-white rounded-lg border border-gray-200">
+          <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+            <h2 className="text-lg font-semibold text-gray-900">Campaigns</h2>
+            <button className="flex items-center gap-1 px-3 py-1 text-sm text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50">
+              All Campaigns
+              <ChevronDown className="w-4 h-4" />
+            </button>
+          </div>
+          <div className="px-6 py-4 space-y-3">
+            {campaignsData.map((campaign, index) => (
+              <div key={index} className="flex items-center justify-between py-2">
+                <div className="text-sm font-medium text-gray-900">{campaign.name}</div>
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                  {campaign.status}
+                </span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Recent Activity Section */}
+        <section className="bg-white rounded-lg border border-gray-200">
+          <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+            <h2 className="text-lg font-semibold text-gray-900">Recent Activity</h2>
+            <button className="flex items-center gap-1 px-3 py-1 text-sm text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50">
+              Most Recent
+              <ChevronDown className="w-4 h-4" />
+            </button>
+          </div>
+          <div className="px-6 py-4">
+            <div className="grid grid-cols-12 gap-4 pb-3 text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-100">
+              <div className="col-span-4">Lead</div>
+              <div className="col-span-4">Campaign</div>
+              <div className="col-span-4">Status</div>
             </div>
-
-            <div className="w-full max-w-6xl space-y-6 mt-4">
-                {/* Campaigns Section */}
-                <section className="bg-white rounded-lg border border-gray-200">
-                    <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
-                        <h2 className="text-lg font-semibold text-gray-900">Campaigns</h2>
-                        <button className="flex items-center gap-1 px-3 py-1 text-sm text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50">
-                            All Campaigns
-                            <ChevronDown className="w-4 h-4" />
-                        </button>
+            <div className="space-y-3 pt-3">
+              {recentActivity.map((activity, index) => (
+                <div key={index} className="grid grid-cols-12 gap-4 items-center">
+                  <div className="col-span-4 flex items-center gap-3">
+                    <img
+                      className="w-8 h-8 rounded-full object-cover"
+                      src={activity.avatar}
+                      alt={activity.name}
+                    />
+                    <div className="min-w-0 flex-1">
+                      <div className="text-sm font-medium text-gray-900 truncate">
+                        {activity.name}
+                      </div>
+                      <div className="text-xs text-gray-500 truncate">
+                        {activity.title}
+                      </div>
                     </div>
-                    <div className="px-6 py-4 space-y-3">
-                        {campaignsData.map((campaign, index) => (
-                            <div key={index} className="flex items-center justify-between py-2">
-                                <div className="text-sm font-medium text-gray-900">{campaign.name}</div>
-                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                    {campaign.status}
-                                </span>
-                            </div>
-                        ))}
-                    </div>
-                </section>
-
-                {/* Recent Activity Section */}
-                <section className="bg-white rounded-lg border border-gray-200">
-                    <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
-                        <h2 className="text-lg font-semibold text-gray-900">Recent Activity</h2>
-                        <button className="flex items-center gap-1 px-3 py-1 text-sm text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50">
-                            Most Recent
-                            <ChevronDown className="w-4 h-4" />
-                        </button>
-                    </div>
-                    <div className="px-6 py-4">
-                        <div className="grid grid-cols-12 gap-4 pb-3 text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-100">
-                            <div className="col-span-4">Lead</div>
-                            <div className="col-span-4">Campaign</div>
-                            <div className="col-span-4">Status</div>
-                        </div>
-                        <div className="space-y-3 pt-3">
-                            {recentActivity.map((activity, index) => (
-                                <div
-                                    key={index}
-                                    className="grid grid-cols-12 gap-4 items-center"
-                                >
-                                    <div className="col-span-4 flex items-center gap-3">
-                                        <img
-                                            className="w-8 h-8 rounded-full object-cover"
-                                            src={activity.avatar}
-                                            alt={activity.name}
-                                        />
-                                        <div className="min-w-0 flex-1">
-                                            <div className="text-sm font-medium text-gray-900 truncate">
-                                                {activity.name}
-                                            </div>
-                                            <div className="text-xs text-gray-500 truncate">
-                                                {activity.title}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-span-4">
-                                        <div className="text-sm text-gray-900">{activity.campaign}</div>
-                                    </div>
-                                    <div className="col-span-4">
-                                        <StatusBadge
-                                            status={activity.status}
-                                            type={activity.statusType}
-                                        />
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-
-                {/* LinkedIn Accounts Section */}
-                <section className="bg-white rounded-lg border border-gray-200">
-                    <div className="px-6 py-4 border-b border-gray-200">
-                        <h2 className="text-lg font-semibold text-gray-900">LinkedIn Accounts</h2>
-                    </div>
-                    <div className="px-6 py-4">
-                        <div className="grid grid-cols-12 gap-4 pb-3 text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-100">
-                            <div className="col-span-4">Account</div>
-                            <div className="col-span-3">Status</div>
-                            <div className="col-span-5">Requests</div>
-                        </div>
-                        <div className="space-y-4 pt-3">
-                            {linkedinAccounts.map((account, index) => (
-                                <div
-                                    key={index}
-                                    className="grid grid-cols-12 gap-4 items-center"
-                                >
-                                    <div className="col-span-4 flex items-center gap-3">
-                                        <img
-                                            className="w-10 h-10 rounded-full object-cover"
-                                            src={account.avatar}
-                                            alt={account.name}
-                                        />
-                                        <div className="min-w-0 flex-1">
-                                            <div className="flex items-center gap-2">
-                                                <div className="text-sm font-medium text-gray-900">
-                                                    {account.name}
-                                                </div>
-                                                {account.verified && (
-                                                    <div className="w-4 h-4 bg-orange-400 rounded flex items-center justify-center">
-                                                        <span className="text-white text-xs font-bold">in</span>
-                                                    </div>
-                                                )}
-                                            </div>
-                                            <div className="text-xs text-gray-500 truncate">
-                                                {account.email}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-span-3">
-                                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                            <Wifi className="w-3 h-3" />
-                                            {account.status}
-                                        </span>
-                                    </div>
-                                    <div className="col-span-5">
-                                        <div className="flex items-center gap-3">
-                                            <RequestsProgressBar
-                                                current={parseInt(account.requests.split("/")[0])}
-                                                total={parseInt(account.requests.split("/")[1])}
-                                            />
-                                            <span className="text-sm text-gray-600 whitespace-nowrap">
-                                                {account.requests}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
+                  </div>
+                  <div className="col-span-4">
+                    <div className="text-sm text-gray-900">{activity.campaign}</div>
+                  </div>
+                  <div className="col-span-4">
+                    <StatusBadge
+                      status={activity.status}
+                      type={activity.statusType}
+                    />
+                  </div>
+                </div>
+              ))}
             </div>
-        </div>
-   </div>
-  
-    );
+          </div>
+        </section>
+
+        {/* LinkedIn Accounts Section */}
+        <section className="bg-white rounded-lg border border-gray-200">
+          <div className="px-6 py-4 border-b border-gray-200">
+            <h2 className="text-lg font-semibold text-gray-900">LinkedIn Accounts</h2>
+          </div>
+          <div className="px-6 py-4">
+            <div className="grid grid-cols-12 gap-4 pb-3 text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-100">
+              <div className="col-span-4">Account</div>
+              <div className="col-span-3">Status</div>
+              <div className="col-span-5">Requests</div>
+            </div>
+            <div className="space-y-4 pt-3">
+              {linkedinAccounts.map((account, index) => (
+                <div key={index} className="grid grid-cols-12 gap-4 items-center">
+                  <div className="col-span-4 flex items-center gap-3">
+                    <img
+                      className="w-10 h-10 rounded-full object-cover"
+                      src={account.avatar}
+                      alt={account.name}
+                    />
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2">
+                        <div className="text-sm font-medium text-gray-900">
+                          {account.name}
+                        </div>
+                        {account.verified && (
+                          <div className="w-4 h-4 bg-orange-400 rounded flex items-center justify-center">
+                            <span className="text-white text-xs font-bold">in</span>
+                          </div>
+                        )}
+                      </div>
+                      <div className="text-xs text-gray-500 truncate">
+                        {account.email}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-span-3">
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                      <Wifi className="w-3 h-3" />
+                      {account.status}
+                    </span>
+                  </div>
+                  <div className="col-span-5">
+                    <div className="flex items-center gap-3">
+                      <RequestsProgressBar
+                        current={parseInt(account.requests.split("/")[0])}
+                        total={parseInt(account.requests.split("/")[1])}
+                      />
+                      <span className="text-sm text-gray-600 whitespace-nowrap">
+                        {account.requests}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </div>
+      </div>
+    </div>
+  </div>
+);
+
 }

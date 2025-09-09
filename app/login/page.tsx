@@ -1,46 +1,102 @@
-'use client'
+'use client';
 
-import { FormEvent } from 'react'
-import { redirect, useRouter } from 'next/navigation'
-import { signIn } from 'next-auth/react'
+import { FormEvent, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
+import Image from 'next/image';
+import Logo from './logo2.png';
 
 export default function LoginPage() {
-    const router = useRouter()
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-    async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-        event.preventDefault()
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setIsLoading(true);
+    setError(null);
 
-        const formData = new FormData(event.currentTarget)
-        const email = formData.get('email')?.toString() || ""
-        const password = formData.get('password')?.toString() || ""
+    const formData = new FormData(event.currentTarget);
+    const email = formData.get('email')?.toString() || "";
+    const password = formData.get('password')?.toString() || "";
 
-        const result = await signIn('credentials', {
-          //  redirect: false,
-            email,
-            password,
-        })
+    const result = await signIn('credentials', { redirect: false, email, password });
 
-        if (result?.error) {
-            alert("Login failed:" + result.error)
-        } else {
-            // Handle errors
-            router.push('/profile')
-        }
+    setIsLoading(false);
+    if (result?.error) {
+      setError(result.error);
+    } else {
+      router.push('/profile');
     }
+  }
 
-    return (
-        <form onSubmit={handleSubmit}>
-            <input type="email" name="email" placeholder="Email" required />
-            <input type="password" name="password" placeholder="Password" required />
-            <div>
-                <button type="submit">Login</button> <br></br>
-                <button type="button"
-                    onClick={() => signIn('google', {callbackUrl: '/profile'})}>
-                    Sign in with Google</button>
-            </div>
+  return (
+    <div className="relative min-h-screen flex items-center justify-center bg-gray-900">
+      {/* Background blur overlay */}
+      <div className="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm z-0"></div>
+
+      {/* Login form container (above blur) */}
+      <div className="relative z-10 w-full max-w-md bg-black rounded-lg shadow-md p-8">
+        <div className="flex justify-center mb-6">
+          <Image src={Logo} alt="LinkBird Logo" width={30} height={30} />
+        </div>
+        <h1 className="text-center text-2xl font-semibold mb-2">Welcome</h1>
+        <p className="text-center text-gray-400 mb-6 text-sm">
+          Log in to auth0-tenant-demo to continue to Auth0 React SDK Sample.
+        </p>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <input
+            type="email"
+            name="email"
+            placeholder="Email address"
+            required
+            className="border border-gray-300 p-3 rounded focus:outline-blue-500"
+            disabled={isLoading}
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            required
+            className="border border-gray-300 p-3 rounded focus:outline-blue-500"
+            disabled={isLoading}
+          />
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+          <a href="/forgot-password" className="text-blue-600 text-sm underline cursor-pointer">
+            Forgot password?
+          </a>
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="bg-blue-600 text-white py-3 rounded font-semibold hover:bg-blue-700 disabled:opacity-50"
+          >
+            {isLoading ? 'Loading...' : 'Continue'}
+          </button>
         </form>
-
-
-    )
-
+        <div className="flex items-center my-6">
+          <hr className="flex-grow border-gray-300" />
+          <span className="mx-3 text-gray-400 text-xs">OR</span>
+          <hr className="flex-grow border-gray-300" />
+        </div>
+        <button
+          onClick={() => signIn('google', { callbackUrl: '/profile' })}
+          className="flex items-center justify-center border border-gray-300 py-2 rounded w-full font-semibold hover:bg-gray-100"
+          disabled={isLoading}
+        >
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"
+            alt="Google Logo"
+            className="w-5 h-5 mr-2"
+          />
+          Continue with Google
+        </button>
+        <p className="text-center mt-6 text-gray-500 text-sm">
+          Don't have an account?{' '}
+          <a href="/signup" className="text-blue-600 underline">
+            Sign up
+          </a>
+        </p>
+      </div>
+    </div>
+  );
 }

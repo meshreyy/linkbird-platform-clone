@@ -1,5 +1,5 @@
-import NextAuth from "next-auth"
-import GoogleProvider from "next-auth/providers/google"
+import NextAuth from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions = {
   providers: [
@@ -7,12 +7,21 @@ export const authOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
-    // You can add more providers here (credentials, email/password, GitHub, etc.)
   ],
   session: {
     strategy: "jwt",
   },
-}
+  pages: {
+    signIn: "/login",       
+  },
+  callbacks: {
+    async redirect({ url, baseUrl }) {
+      // Redirect to dashboard after sign in
+     if (url.startsWith(baseUrl)) return url;
+      return baseUrl + '/dashboard';  
+    },
+  },
+};
 
-const handler = NextAuth(authOptions)
-export { handler as GET, handler as POST }
+const handler = NextAuth(authOptions);
+export { handler as GET, handler as POST };
