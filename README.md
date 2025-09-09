@@ -68,7 +68,7 @@ This project implements a comprehensive authentication and dashboard system usin
   - Actions (Edit, Pause/Resume, Delete)
 - Campaign statistics with visual progress bars, color-coded status indicators, and summary cards.
 
-Data Note
+**Note:** Data Note
 The data displayed in this application (such as leads, campaigns, and user info) is currently static sample data for demonstration purposes.
 No live backend or dynamic data fetching is implemented yet.
 
