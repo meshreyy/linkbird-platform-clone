@@ -15,59 +15,50 @@ bun dev
 ```
 
 
-Open http://localhost:3000 in your browser to view the app.
-Edit the page by modifying app/page.tsx; changes auto-update on save.
-This project uses next/font to optimize and load the Geist font family from Vercel.
+# Project Overview
 
-Login Information
-Note: On the /login page, only Continue with Google authentication works at present. Other sign-in methods (email/password) are planned but not yet implemented.
+Open [http://localhost:3000](http://localhost:3000) in your browser to view the app.  
+Edit the page by modifying `app/page.tsx`; changes auto-update on save.  
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to optimize and load the [Geist](https://vercel.com/font) font family from Vercel.
 
-Project Overview & Features
-This project offers a full-featured authentication and dashboard system built with Next.js and Better Auth integration.
+## Login Information
 
-Key Features
-1. Authentication System
-Google OAuth login fully implemented.
+> **Note:** On the `/login` page, only **Continue with Google** authentication works at present. Other sign-in methods (email/password) are planned but not yet implemented.
 
-Email/password sign-up and login UI prepared (backend integration in progress).
+## Features
 
-Session management with protected routes redirecting unauthenticated users to /login.
+### 1. Authentication System
 
-Logout available in user profile.
+- Google OAuth login fully implemented.
+- Email/password sign-up and login UI prepared (backend integration in progress).
+- Session management with protected routes redirecting unauthenticated users to `/login`.
+- Logout available in user profile.
+- Responsive, clean authentication UI built with Next.js and Tailwind CSS.
+- Robust error handling and input validation on auth forms.
 
-Responsive, clean authentication UI built with Next.js and Tailwind CSS.
+### 2. Application Layout & Navigation
 
-Robust error handling and input validation on auth forms.
+- Main app shell with collapsible sidebar and active state navigation.
+- Sidebar includes user profile and logout.
+- Navigation links: Dashboard, Leads, Campaigns, Settings.
+- Consistent header with breadcrumbs and typography across pages.
 
-2. Application Layout & Navigation
-Main app shell with collapsible sidebar and active state navigation.
+### 3. Leads Section
 
-Sidebar includes user profile and logout.
+- Infinite-scroll leads table showing:
+  - Lead Name/Contact, Email, Company, Campaign Name, Status, Last Contact Date.
+- Search, filter, loading states, and skeleton UI feedback.
+- Lead detail side sheet with rich info, interaction history, and actions.
+- Smooth slide-in animation and easy close.
 
-Navigation links: Dashboard, Leads, Campaigns, Settings.
+### 4. Campaigns Section
 
-Consistent header with breadcrumbs and typography across pages.
+- Campaign overview and management dashboard.
+- Sortable campaigns table including:
+  - Campaign Name, Status, Total Leads, Successful Leads, Response Rate, Progress Bar, Created Date, Actions.
+- Visual campaign statistics with color-coded statuses and summary cards.
 
-3. Leads Section
-Infinite-scroll leads table showing:
+## Data Notice
 
-Lead Name/Contact, Email, Company, Campaign Name, Status, Last Contact Date.
-
-Search, filter, loading states, and skeleton UI feedback.
-
-Lead detail side sheet with rich info, interaction history, and actions.
-
-Smooth slide-in animation and easy close.
-
-4. Campaigns Section
-Campaign overview and management dashboard.
-
-Sortable campaigns table including:
-
-Campaign Name, Status, Total Leads, Successful Leads, Response Rate, Progress Bar, Created Date, Actions.
-
-Visual campaign statistics with color-coded statuses and summary cards.
-
-Data Notice
-All displayed data (leads, campaigns, user info) is currently static sample data for demo purposes.
+All displayed data (leads, campaigns, user info) is currently **static sample data** for demo purposes.  
 Live backend and dynamic data fetching are planned but not yet integrated.
