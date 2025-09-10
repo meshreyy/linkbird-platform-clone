@@ -25,12 +25,16 @@ export default function LoginPage() {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       router.push('/dashboard');
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setIsLoading(false);
-    }
+    } catch (err: unknown) {
+  if (err instanceof Error) {
+    setError(err.message);
+  } else {
+    setError('An unexpected error occurred');
   }
+} finally {
+  setIsLoading(false);
+}
+
 
   async function handleGoogleSignIn() {
     setIsLoading(true);
@@ -44,6 +48,7 @@ export default function LoginPage() {
       setError(err.message);
     } finally {
       setIsLoading(false);
+    }
     }
   }
 
@@ -108,7 +113,7 @@ export default function LoginPage() {
           Continue with Google
         </button>
         <p className="text-center mt-6 text-gray-500 text-sm">
-          Don't have an account?{' '}
+          Don&apos;t have an account?{' '}
           <a href="/signup" className="text-blue-600 underline">
             Sign up
           </a>
