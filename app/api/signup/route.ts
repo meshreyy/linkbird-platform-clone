@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
     // TODO: Save user (name, email, hashedPassword) in your database
 
     return NextResponse.json({ message: 'User created successfully' }, { status: 201 });
-  } catch (error) {
+  } catch (error: unknown) {
     return NextResponse.json({ error: 'Failed to create user' }, { status: 500 });
   }
 }
