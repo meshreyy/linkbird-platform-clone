@@ -15,60 +15,59 @@ bun dev
 ```
 
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.  
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.  
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open http://localhost:3000 in your browser to view the app.
+Edit the page by modifying app/page.tsx; changes auto-update on save.
+This project uses next/font to optimize and load the Geist font family from Vercel.
 
-## Login Information
+Login Information
+Note: On the /login page, only Continue with Google authentication works at present. Other sign-in methods (email/password) are planned but not yet implemented.
 
-> **Note:** On the `/login` page, only the **Continue with Google** button is functional. Other login methods are currently not implemented.
+Project Overview & Features
+This project offers a full-featured authentication and dashboard system built with Next.js and Better Auth integration.
 
-## Project Overview & Completed Features
+Key Features
+1. Authentication System
+Google OAuth login fully implemented.
 
-This project implements a comprehensive authentication and dashboard system using Better Auth integrated with Next.js.
+Email/password sign-up and login UI prepared (backend integration in progress).
 
-### Features Implemented
+Session management with protected routes redirecting unauthenticated users to /login.
 
-#### 1. Authentication System
-- Complete login flow with **Google OAuth** sign-in (email/password sign-up/login UI prepared, but only Google OAuth currently functional).
-- User registration form implemented (sign-up with email/password functionality planned).
-- Session management and protected routes with middleware redirecting unauthenticated users to `/login`.
-- Logout functionality integrated in user profile.
-- Clean, responsive authentication UI using Next.js and Tailwind CSS.
-- Proper error handling and validation in login and registration forms.
+Logout available in user profile.
 
-#### 2. Application Layout & Navigation
-- Main application shell with collapsible sidebar navigation.
-- Sidebar includes active state indicators and user profile section with logout.
-- Navigation items: Dashboard, Leads, Campaigns, Settings.
-- Main layout includes header with breadcrumbs and consistent spacing/typography.
+Responsive, clean authentication UI built with Next.js and Tailwind CSS.
 
-#### 3. Leads Section
-- Implemented infinitely scrollable leads table listing all leads with columns:
-  - Lead Name/Contact
-  - Email
-  - Company
-  - Campaign Name
-  - Status (Pending, Contacted, Responded, Converted)
-  - Last Contact Date
-- Search and filter capabilities with loading states and skeleton UI.
-- Lead Detail Side Sheet with comprehensive info, interaction history, and action buttons.
-- Smooth slide-in animation and close functionality.
+Robust error handling and input validation on auth forms.
 
-#### 4. Campaigns Section
-- Campaigns overview and management interface.
-- Campaigns table with sortable columns:
-  - Campaign Name
-  - Status (Draft, Active, Paused, Completed)
-  - Total Leads
-  - Successful Leads
-  - Response Rate (%)
-  - Progress Bar
-  - Created Date
-  - Actions (Edit, Pause/Resume, Delete)
-- Campaign statistics with visual progress bars, color-coded status indicators, and summary cards.
+2. Application Layout & Navigation
+Main app shell with collapsible sidebar and active state navigation.
 
-**Note:** Data Note
-The data displayed in this application (such as leads, campaigns, and user info) is currently static sample data for demonstration purposes.
-No live backend or dynamic data fetching is implemented yet.
+Sidebar includes user profile and logout.
 
+Navigation links: Dashboard, Leads, Campaigns, Settings.
+
+Consistent header with breadcrumbs and typography across pages.
+
+3. Leads Section
+Infinite-scroll leads table showing:
+
+Lead Name/Contact, Email, Company, Campaign Name, Status, Last Contact Date.
+
+Search, filter, loading states, and skeleton UI feedback.
+
+Lead detail side sheet with rich info, interaction history, and actions.
+
+Smooth slide-in animation and easy close.
+
+4. Campaigns Section
+Campaign overview and management dashboard.
+
+Sortable campaigns table including:
+
+Campaign Name, Status, Total Leads, Successful Leads, Response Rate, Progress Bar, Created Date, Actions.
+
+Visual campaign statistics with color-coded statuses and summary cards.
+
+Data Notice
+All displayed data (leads, campaigns, user info) is currently static sample data for demo purposes.
+Live backend and dynamic data fetching are planned but not yet integrated.
