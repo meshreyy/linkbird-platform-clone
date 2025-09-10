@@ -1,32 +1,49 @@
 'use client';
 
-import { FormEvent, useState } from 'react';
+import { useState } from 'react';
+import { auth } from '@/lib/firebase';
+import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
-import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import Logo from './logo2.png';
+import google from './google.png'
 
 export default function LoginPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setIsLoading(true);
     setError(null);
 
     const formData = new FormData(event.currentTarget);
-    const email = formData.get('email')?.toString() || "";
-    const password = formData.get('password')?.toString() || "";
+    const email = formData.get('email')?.toString() || '';
+    const password = formData.get('password')?.toString() || '';
 
-    const result = await signIn('credentials', { redirect: false, email, password });
-
-    setIsLoading(false);
-    if (result?.error) {
-      setError(result.error);
-    } else {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
       router.push('/dashboard');
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function handleGoogleSignIn() {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+      router.push('/dashboard');
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -35,7 +52,7 @@ export default function LoginPage() {
       {/* Background blur overlay */}
       <div className="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm z-0"></div>
 
-      {/* Login form container (above blur) */}
+      {/* Login form container */}
       <div className="relative z-10 w-full max-w-md bg-black rounded-lg shadow-md p-8">
         <div className="flex justify-center mb-6">
           <Image src={Logo} alt="LinkBird Logo" width={30} height={30} />
@@ -79,12 +96,12 @@ export default function LoginPage() {
           <hr className="flex-grow border-gray-300" />
         </div>
         <button
-          onClick={() => signIn('google', { callbackUrl: '/dashboard' })}
+          onClick={handleGoogleSignIn}
           className="flex items-center justify-center border border-gray-300 py-2 rounded w-full font-semibold hover:bg-gray-100"
           disabled={isLoading}
         >
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"
+          <Image
+            src={google}
             alt="Google Logo"
             className="w-5 h-5 mr-2"
           />

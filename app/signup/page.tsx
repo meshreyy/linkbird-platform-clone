@@ -4,6 +4,8 @@ import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Logo from './logo3.png';
+import { auth } from '@/lib/firebase';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 
 export default function SignupPage() {
   const router = useRouter();
@@ -20,19 +22,15 @@ export default function SignupPage() {
     const email = formData.get('email')?.toString() || "";
     const password = formData.get('password')?.toString() || "";
 
-    try {
-      const res = await fetch('/api/signup', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ name, email, password }),
-      });
-
-      if (!res.ok) {
-        const errData = await res.json();
-        throw new Error(errData.error || 'Failed to sign up');
+try {
+      // Create user with Firebase
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      if (auth.currentUser) {
+        await updateProfile(auth.currentUser, { displayName: name });
       }
 
-      router.push('/login'); // Redirect to login after successful signup
+      // Redirect to dashboard on signup success
+      router.push('/dashboard');
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -49,9 +47,7 @@ export default function SignupPage() {
           <Image src={Logo} alt="Logo" width={30} height={30} />
         </div>
         <h1 className="text-center text-2xl font-semibold mb-2">Create Account</h1>
-        <p className="text-center text-gray-400 mb-6 text-sm">
-          Sign up to get started.
-        </p>
+        <p className="text-center text-gray-400 mb-6 text-sm">Sign up to get started.</p>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <input
             type="text"
