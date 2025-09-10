@@ -34,7 +34,7 @@ export default function LoginPage() {
     } finally {
       setIsLoading(false);
     }
-  } // <-- Closing brace here to properly close handleSubmit
+  }
 
   async function handleGoogleSignIn() {
     setIsLoading(true);
