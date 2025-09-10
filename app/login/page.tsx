@@ -6,7 +6,7 @@ import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Logo from './logo2.png';
-import google from './google.png'
+import google from './google.png';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -26,34 +26,33 @@ export default function LoginPage() {
       await signInWithEmailAndPassword(auth, email, password);
       router.push('/dashboard');
     } catch (err: unknown) {
-  if (err instanceof Error) {
-    setError(err.message);
-  } else {
-    setError('An unexpected error occurred');
-  }
-} finally {
-  setIsLoading(false);
-}
-
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('An unexpected error occurred');
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  } // <-- Closing brace here to properly close handleSubmit
 
   async function handleGoogleSignIn() {
     setIsLoading(true);
     setError(null);
 
-   try {
-    const provider = new GoogleAuthProvider();
-    await signInWithPopup(auth, provider);
-    router.push('/dashboard');
-  } catch (err: unknown) {
-    if (err instanceof Error) {
-      setError(err.message);
-    } else {
-      setError('An unexpected error occurred');
+    try {
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+      router.push('/dashboard');
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('An unexpected error occurred');
+      }
+    } finally {
+      setIsLoading(false);
     }
-  } finally {
-    setIsLoading(false);
-  }
-}
   }
 
   return (
@@ -117,7 +116,7 @@ export default function LoginPage() {
           Continue with Google
         </button>
         <p className="text-center mt-6 text-gray-500 text-sm">
-          <p>Don&apos;t have an account?</p>
+          Don&apos;t have an account?{' '}
           <a href="/signup" className="text-blue-600 underline">
             Sign up
           </a>

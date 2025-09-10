@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from '@/components/Header';
-import Sidebar, { SidebarProvider } from "@/components/ui/sidebar";
+import  { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -22,7 +22,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <main className="flex-1 bg-gray-50">
               {/* Fixed header */}
               <header className="fixed top-0 left-64 right-0 bg-white border-b shadow h-16 z-50 flex items-center justify-end px-4">
-                <Header />
+                
               </header>
 
               {/* Scrollable content area with padding-top for fixed header */}

@@ -18,7 +18,6 @@ import ProfileDropdown from '../profile/ProfileDropdown';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../api/auth/[...nextauth]/route';
 import { redirect } from 'next/navigation';
-import DashboardHeader from './DashboardHeader';
 import Image from 'next/image';
 
 // Campaign data
@@ -143,7 +142,7 @@ const recentActivity = [
   }
 ];
 
-const StatusBadge = ({ status, type }) => {
+const StatusBadge = ({ status, type }: { status: string; type: string }) => {
   const getStatusStyle = () => {
     switch (type) {
       case 'pending':
@@ -182,7 +181,7 @@ const StatusBadge = ({ status, type }) => {
   );
 };
 
-const RequestsProgressBar = ({ current, total }) => {
+const RequestsProgressBar = ({ current, total }: { current: number; total: number }) => {
   const percentage = (current / total) * 100;
   return (
     <div className="w-full bg-gray-200 rounded-full h-2">

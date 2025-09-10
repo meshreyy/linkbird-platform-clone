@@ -1,4 +1,4 @@
-import NextAuth from "next-auth";
+import NextAuth, { SessionStrategy } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions = {
@@ -8,27 +8,26 @@ export const authOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
       authorization: {
         params: {
-          prompt: "consent",         // Force consent screen every sign in
-          access_type: "offline",    // Request refresh token
+          prompt: "consent",
+          access_type: "offline",
           response_type: "code",
         },
       },
     }),
   ],
   session: {
-    strategy: "jwt",
+    strategy: "jwt" as SessionStrategy,
   },
   pages: {
-    signIn: "/login",       // Custom signin page path
+    signIn: "/login",
   },
   callbacks: {
-    async redirect({ url, baseUrl }) {
-      // Redirect to dashboard if url is relative or disallowed
+    async redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
       if (url.startsWith(baseUrl)) return url;
       return baseUrl + "/dashboard";
     },
   },
-  secret: process.env.NEXTAUTH_SECRET,  // Required for JWT encryption
+  secret: process.env.NEXTAUTH_SECRET,
 };
 
 const handler = NextAuth(authOptions);
