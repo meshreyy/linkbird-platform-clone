@@ -9,7 +9,7 @@ interface SignupRequestBody {
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, email, password }: SignupRequestBody = await request.json();
+    const { email, password }: SignupRequestBody = await request.json();
 
     // TODO: Add validation here (e.g. email format, password strength)
 
