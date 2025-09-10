@@ -2,11 +2,10 @@
 
 import { FormEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { signIn } from 'next-auth/react';
 import Image from 'next/image';
-import Logo from './logo2.png';
+import Logo from './logo3.png';
 
-export default function LoginPage() {
+export default function SignupPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -17,34 +16,51 @@ export default function LoginPage() {
     setError(null);
 
     const formData = new FormData(event.currentTarget);
+    const name = formData.get('name')?.toString() || "";
     const email = formData.get('email')?.toString() || "";
     const password = formData.get('password')?.toString() || "";
 
-    const result = await signIn('credentials', { redirect: false, email, password });
+    try {
+      const res = await fetch('/api/signup', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ name, email, password }),
+      });
 
-    setIsLoading(false);
-    if (result?.error) {
-      setError(result.error);
-    } else {
-      router.push('/dashboard');
+      if (!res.ok) {
+        const errData = await res.json();
+        throw new Error(errData.error || 'Failed to sign up');
+      }
+
+      router.push('/login'); // Redirect to login after successful signup
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
     }
   }
 
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-gray-900">
-      {/* Background blur overlay */}
       <div className="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm z-0"></div>
 
-      {/* Login form container (above blur) */}
       <div className="relative z-10 w-full max-w-md bg-black rounded-lg shadow-md p-8">
         <div className="flex justify-center mb-6">
-          <Image src={Logo} alt="LinkBird Logo" width={30} height={30} />
+          <Image src={Logo} alt="Logo" width={30} height={30} />
         </div>
-        <h1 className="text-center text-2xl font-semibold mb-2">Welcome</h1>
+        <h1 className="text-center text-2xl font-semibold mb-2">Create Account</h1>
         <p className="text-center text-gray-400 mb-6 text-sm">
-          Log in to auth0-tenant-demo to continue to Auth0 React SDK Sample.
+          Sign up to get started.
         </p>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <input
+            type="text"
+            name="name"
+            placeholder="Full Name"
+            required
+            className="border border-gray-300 p-3 rounded focus:outline-blue-500"
+            disabled={isLoading}
+          />
           <input
             type="email"
             name="email"
@@ -62,15 +78,12 @@ export default function LoginPage() {
             disabled={isLoading}
           />
           {error && <p className="text-red-500 text-sm">{error}</p>}
-          <a href="/forgot-password" className="text-blue-600 text-sm underline cursor-pointer">
-            Forgot password?
-          </a>
           <button
             type="submit"
             disabled={isLoading}
             className="bg-blue-600 text-white py-3 rounded font-semibold hover:bg-blue-700 disabled:opacity-50"
           >
-            {isLoading ? 'Loading...' : 'Continue'}
+            {isLoading ? 'Signing up...' : 'Sign up'}
           </button>
         </form>
         <div className="flex items-center my-6">
@@ -78,22 +91,10 @@ export default function LoginPage() {
           <span className="mx-3 text-gray-400 text-xs">OR</span>
           <hr className="flex-grow border-gray-300" />
         </div>
-        <button
-          onClick={() => signIn('google', { callbackUrl: '/dashboard' })}
-          className="flex items-center justify-center border border-gray-300 py-2 rounded w-full font-semibold hover:bg-gray-100"
-          disabled={isLoading}
-        >
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"
-            alt="Google Logo"
-            className="w-5 h-5 mr-2"
-          />
-          Continue with Google
-        </button>
         <p className="text-center mt-6 text-gray-500 text-sm">
-          Don't have an account?{' '}
-          <a href="/signup" className="text-blue-600 underline">
-            Sign up
+          Already have an account?{' '}
+          <a href="/login" className="text-blue-600 underline">
+            Log in
           </a>
         </p>
       </div>

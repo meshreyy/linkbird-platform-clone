@@ -206,7 +206,7 @@ export default function Dashboard() {
       </header>
       <br></br>
           <br></br>
-  <div className="bg-gray-50 min-h-screen p-8 flex justify-center">
+  <div>
     <div className="max-w-7xl mx-auto space-y-6"></div>
    
     
