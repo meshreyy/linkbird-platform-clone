@@ -40,16 +40,20 @@ export default function LoginPage() {
     setIsLoading(true);
     setError(null);
 
-    try {
-      const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
-      router.push('/dashboard');
-    } catch (err: any) {
+   try {
+    const provider = new GoogleAuthProvider();
+    await signInWithPopup(auth, provider);
+    router.push('/dashboard');
+  } catch (err: unknown) {
+    if (err instanceof Error) {
       setError(err.message);
-    } finally {
-      setIsLoading(false);
+    } else {
+      setError('An unexpected error occurred');
     }
-    }
+  } finally {
+    setIsLoading(false);
+  }
+}
   }
 
   return (
@@ -113,7 +117,7 @@ export default function LoginPage() {
           Continue with Google
         </button>
         <p className="text-center mt-6 text-gray-500 text-sm">
-          Don&apos;t have an account?{' '}
+          <p>Don&apos;t have an account?</p>
           <a href="/signup" className="text-blue-600 underline">
             Sign up
           </a>
