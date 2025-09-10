@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from 'react';
-import { 
-  Users, 
+import {
+  Users,
   MessageSquare,
   Settings,
   Activity,
@@ -12,6 +12,7 @@ import {
   CheckCircle
 } from 'lucide-react';
 import ProfileDropdown from '../profile/ProfileDropdown';
+import Image from 'next/image';
 
 const leadsData = [
   {
@@ -112,15 +113,14 @@ const ActivityBar = ({ level }: { level: number }) => {
       {[1, 2, 3, 4, 5].map((bar) => (
         <div
           key={bar}
-          className={`w-1 h-6 rounded-sm ${
-            bar <= level
+          className={`w-1 h-6 rounded-sm ${bar <= level
               ? bar <= 2
                 ? "bg-red-400"
                 : bar <= 4
-                ? "bg-yellow-400"
-                : "bg-green-400"
+                  ? "bg-yellow-400"
+                  : "bg-green-400"
               : "bg-gray-200"
-          }`}
+            }`}
         />
       ))}
     </div>
@@ -164,7 +164,7 @@ const StatusBadge = ({
     }
   };
 
-  
+
   return (
     <span
       className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium ${getStatusStyle()}`}
@@ -178,90 +178,92 @@ const StatusBadge = ({
 export default function LeadsPage() {
   const [sortBy, setSortBy] = useState('name');
   return (
-     <div className="min-h-screen flex flex-col bg-gray-50">
-          {/* Header */}
-          <header className="flex justify-between items-center p-4 border-b fixed top-0 left-70 right-0 bg-white z-50 shadow h-16">
-            <h1 className="text-lg font-semibold ml-auto text-gray-900 ">Welcome, User</h1>
-           
-            <ProfileDropdown user={{ name: "User", email: "user@email.com" }} />
-          </header>
-          <br></br>
-          <br></br>
-          <br></br>
-    
-    <div className="flex flex-col items-center p-6 bg-gray-50 min-h-screen">
-  {/* Breadcrumb / Title */}
-  <div className="w-full max-w-6xl bg-white border-b border-gray-200 px-6 py-3">
-    <div className="text-gray-900 font-medium text-lg">Leads</div>
-  </div>
+    <div className="min-h-screen flex flex-col bg-gray-50">
+      {/* Header */}
+      <header className="flex justify-between items-center p-4 border-b fixed top-0 left-70 right-0 bg-white z-50 shadow h-16">
+        <h1 className="text-lg font-semibold ml-auto text-gray-900 ">Welcome, User</h1>
 
-  {/* Table Container */}
-  <div className="w-full max-w-6xl bg-white rounded-lg border border-gray-200 overflow-hidden mt-4">
-    {/* Table Header */}
-        <div className="bg-gray-50 border-b border-gray-200 px-6 py-3">
-          <div className="grid grid-cols-12 gap-4">
-            <div className="col-span-4 flex items-center gap-2 text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Name
-              <ChevronDown className="w-4 h-4" />
-            </div>
-            <div className="col-span-3 flex items-center gap-2 text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Campaign Name
-              <ChevronDown className="w-4 h-4" />
-            </div>
-            <div className="col-span-2 text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Activity
-            </div>
-            <div className="col-span-3 flex items-center gap-2 text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Status
-              <ChevronDown className="w-4 h-4" />
-            </div>
-          </div>
+        <ProfileDropdown user={{ name: "User", email: "user@email.com" }} />
+      </header>
+      <br></br>
+      <br></br>
+      <br></br>
+
+      <div className="flex flex-col items-center p-6 bg-gray-50 min-h-screen">
+        {/* Breadcrumb / Title */}
+        <div className="w-full max-w-6xl bg-white border-b border-gray-200 px-6 py-3">
+          <div className="text-gray-900 font-medium text-lg">Leads</div>
         </div>
 
-        {/* Table Body */}
-        <div className="divide-y divide-gray-200">
-          {leadsData.map((lead) => (
-            <div
-              key={lead.id}
-              className="px-6 py-4 hover:bg-gray-50 transition-colors"
-            >
-              <div className="grid grid-cols-12 gap-4 items-center">
-                {/* Name Column */}
-                <div className="col-span-4 flex items-center gap-3">
-                  <img
-                    className="w-10 h-10 rounded-full object-cover"
-                    src={lead.avatar}
-                    alt={lead.name}
-                  />
-                  <div className="min-w-0 flex-1">
-                    <div className="text-sm font-medium text-gray-900 truncate">
-                      {lead.name}
-                    </div>
-                    <div className="text-sm text-gray-500 truncate">
-                      {lead.title}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Campaign Name Column */}
-                <div className="col-span-3">
-                  <div className="text-sm text-gray-900">{lead.campaign}</div>
-                </div>
-
-                {/* Activity Column */}
-                <div className="col-span-2">
-                  <ActivityBar level={lead.activity} />
-                </div>
-
-                {/* Status Column */}
-                <div className="col-span-3">
-                  <StatusBadge status={lead.status} type={lead.statusType} />
-                </div>
+        {/* Table Container */}
+        <div className="w-full max-w-6xl bg-white rounded-lg border border-gray-200 overflow-hidden mt-4">
+          {/* Table Header */}
+          <div className="bg-gray-50 border-b border-gray-200 px-6 py-3">
+            <div className="grid grid-cols-12 gap-4">
+              <div className="col-span-4 flex items-center gap-2 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Name
+                <ChevronDown className="w-4 h-4" />
+              </div>
+              <div className="col-span-3 flex items-center gap-2 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Campaign Name
+                <ChevronDown className="w-4 h-4" />
+              </div>
+              <div className="col-span-2 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Activity
+              </div>
+              <div className="col-span-3 flex items-center gap-2 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Status
+                <ChevronDown className="w-4 h-4" />
               </div>
             </div>
-          ))}
+          </div>
+
+          {/* Table Body */}
+          <div className="divide-y divide-gray-200">
+            {leadsData.map((lead) => (
+              <div
+                key={lead.id}
+                className="px-6 py-4 hover:bg-gray-50 transition-colors"
+              >
+                <div className="grid grid-cols-12 gap-4 items-center">
+                  {/* Name Column */}
+                  <div className="col-span-4 flex items-center gap-3">
+                    <Image
+                      src={lead.avatar}
+                      alt={lead.name}
+                      width={40}   // 10 * 4 = 40 px from Tailwind w-10/h-10
+                      height={40}
+                      className="rounded-full object-cover"
+                    />
+                    <div className="min-w-0 flex-1">
+                      <div className="text-sm font-medium text-gray-900 truncate">
+                        {lead.name}
+                      </div>
+                      <div className="text-sm text-gray-500 truncate">
+                        {lead.title}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Campaign Name Column */}
+                  <div className="col-span-3">
+                    <div className="text-sm text-gray-900">{lead.campaign}</div>
+                  </div>
+
+                  {/* Activity Column */}
+                  <div className="col-span-2">
+                    <ActivityBar level={lead.activity} />
+                  </div>
+
+                  {/* Status Column */}
+                  <div className="col-span-3">
+                    <StatusBadge status={lead.status} type={lead.statusType} />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
       </div>
     </div>
   );
