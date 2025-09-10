@@ -305,10 +305,12 @@ export default function Dashboard() {
                   {linkedinAccounts.map((account, index) => (
                     <div key={index} className="grid grid-cols-12 gap-4 items-center">
                       <div className="col-span-4 flex items-center gap-3">
-                        <img
+                        <Image
                           className="w-10 h-10 rounded-full object-cover"
                           src={account.avatar}
                           alt={account.name}
+                          width={40}
+                          height={40}
                         />
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-2">

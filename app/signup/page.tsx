@@ -23,19 +23,24 @@ export default function SignupPage() {
     const password = formData.get('password')?.toString() || "";
 
 try {
-      // Create user with Firebase
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      if (auth.currentUser) {
-        await updateProfile(auth.currentUser, { displayName: name });
-      }
+  // Create user with Firebase
+  const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+  if (auth.currentUser) {
+    await updateProfile(auth.currentUser, { displayName: name });
+  }
 
-      // Redirect to dashboard on signup success
-      router.push('/dashboard');
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setIsLoading(false);
-    }
+  // Redirect to dashboard on signup success
+  router.push('/dashboard');
+} catch (err: unknown) {
+  if (err instanceof Error) {
+    setError(err.message);
+  } else {
+    setError('An unexpected error occurred');
+  }
+} finally {
+  setIsLoading(false);
+}
+
   }
 
   return (
